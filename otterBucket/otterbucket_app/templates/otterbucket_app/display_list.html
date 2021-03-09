@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Display List</title>
+</head>
+<body>
+    {% if bucketItems %}
+    <div>
+        {% for item in bucketItems %}
+        <div>
+            <h5>{{item.title}}</h5>
+            <p>{{item.text}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No items in this bucket list</p>
+    {% endif %}
+
+</body>
+</html>
