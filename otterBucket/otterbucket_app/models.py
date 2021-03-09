@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class user(models.Model):
-    userid = models.AutoField(primary_key = True)
+    user_id = models.AutoField(primary_key = True)
     username = models.CharField(max_Length=50)
 
 class BucketItem(models.Model):
