@@ -18,3 +18,7 @@ def list(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
     return render(request, 'otterbucket_app/display_list.html',context)
+
+# TODO: Implement search
+#def search(request):
+#    return render()
