@@ -17,4 +17,14 @@ def genBucketList(request):
 def list(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
-    return render(request, 'otterbucket_app/display_list.html',context)
+    return render(request, 'otterbucket_app/display_list.html', context)
+
+# TODO: Check if admin.
+def adminMain(request):
+    items = BucketItem.objects.all()
+    context = {'items': items}
+    return render(request, 'otterbucket_app/adminMain.html', context)
+
+# TODO: Implement search
+def search(request):
+    return render(request, 'otterbucket_app/search')
