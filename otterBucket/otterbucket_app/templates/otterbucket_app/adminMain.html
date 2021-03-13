@@ -1,7 +1,46 @@
 {% include "otterbucket_app/header.html" %}
 <div class="row">
-    <div class="col"><button class="btn btn-primary">Users</button></div>
-    <div class="col"><button class="btn btn-primary">Items</button></div>
+
+    <div class="col">
+        <a class="btn btn-primary">Add User</a>
+        {% if users %}
+            {% for user in users %}
+                <h5>{{user.username}}</h5>
+                <div class="row">
+                    <div class="col">
+                        <a href="/updateUser?userId={{user.id}}">Update</a>
+                    </div>
+                    <div class="col">
+                        <form>
+                            <button id="{{user.id}}">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="col">
+        <a class="btn btn-primary">Add Item</a>
+        {% if items %}
+            {% for item in items %}
+                <h5>{{item.title}}</h5>
+                <p>{{item.text}}</p>
+                <div class="row">
+                    <div class="col">
+                        <a href="/updateItem?itemId={{item.id}}">Update</a>
+                    </div>
+                    <div class="col">
+                        <form>
+                            <button id="{{item.id}}">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No items in database.</p>
+        {% endif %}
+    </div>
 </div>
 
 
