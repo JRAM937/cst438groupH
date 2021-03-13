@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'otterbucket_app.apps.OtterbucketAppConfig',
+    'otterbucket_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
