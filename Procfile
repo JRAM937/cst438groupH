@@ -1,2 +1,1 @@
-web: gunicorn otterbucket.wsgi --log-file - 
-app: wsgi
+web: gunicorn otterbucket\otterBucket.wsgi --log-file - 
