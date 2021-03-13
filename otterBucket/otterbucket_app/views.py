@@ -21,7 +21,9 @@ def list(request):
 
 # TODO: Check if admin.
 def adminMain(request):
-    return render(request, 'otterbucket_app/adminMain.html')
+    items = BucketItem.objects.all()
+    context = {'items': items}
+    return render(request, 'otterbucket_app/adminMain.html', context)
 
 # TODO: Implement search
 def search(request):
