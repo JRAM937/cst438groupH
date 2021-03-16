@@ -6,7 +6,7 @@ from .models import BucketItem,BucketList,User
 # Create your views here.
 # index is the name used in urls.py to call this function
 def index(request):
-    return HttpResponse("<h1>This is were you would put a view file</h1><a href='/list'>to list</a>")
+    return render(request, 'otterbucket_app/mainPage.html')
 
 def genBucketList(request):
     for i in range(10):
@@ -18,6 +18,16 @@ def list(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
     return render(request, 'otterbucket_app/display_list.html', context)
+
+def login(request):
+    bucketItems = BucketItem.objects.all()
+    context = {'bucketItems': bucketItems}
+    return render(request, 'otterbucket_app/login.html', context)
+
+def register(request):
+    bucketItems = BucketItem.objects.all()
+    context = {'bucketItems': bucketItems}
+    return render(request, 'otterbucket_app/register.html', context)
 
 # TODO: Check if admin.
 def adminMain(request):
