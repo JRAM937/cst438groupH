@@ -19,6 +19,16 @@ def list(request):
     context = {'bucketItems': bucketItems}
     return render(request, 'otterbucket_app/display_list.html', context)
 
+def login(request):
+    bucketItems = BucketItem.objects.all()
+    context = {'bucketItems': bucketItems}
+    return render(request, 'otterbucket_app/login.html', context)
+
+def register(request):
+    bucketItems = BucketItem.objects.all()
+    context = {'bucketItems': bucketItems}
+    return render(request, 'otterbucket_app/register.html', context)
+
 # TODO: Check if admin.
 def adminMain(request):
     items = BucketItem.objects.all()
