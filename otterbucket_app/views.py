@@ -27,4 +27,19 @@ def adminMain(request):
 
 # TODO: Implement search
 def search(request):
-    return render(request, 'otterbucket_app/search')
+    return render(request, 'otterbucket_app/search.html')
+
+
+def manualAddItem(request):
+    b = BucketItem(title=request.POST['title'], text=request.POST['text'])
+    b.save()
+    return redirect(request, '/adminMain')
+
+def manualAddUser(request):
+    u = User(username=request.POST['username'], password=request.POST['password'])
+    u.save()
+    return redirect(request, '/adminMain')
+
+
+def adminAddItem(request):
+    return render(request, 'otterbucket_app/adminAddItem.html')
