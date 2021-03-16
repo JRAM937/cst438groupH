@@ -6,7 +6,7 @@ from .models import BucketItem,BucketList,User
 # Create your views here.
 # index is the name used in urls.py to call this function
 def index(request):
-    return render(request, 'otterbucket_app/landing.html')
+    return render(request, 'otterbucket_app/mainPage.html')
 
 def genBucketList(request):
     for i in range(10):
@@ -28,6 +28,3 @@ def adminMain(request):
 # TODO: Implement search
 def search(request):
     return render(request, 'otterbucket_app/search')
-  
-def random_item(request):
-    return render(request, 'otterbucket_app/random_item.html')
