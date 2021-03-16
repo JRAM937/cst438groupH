@@ -9,5 +9,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('genlist',views.genBucketList, name='genlist'),
     path('list', views.list, name='list'),
+    path('search', views.search, name='search'),
     path('random_item', views.random_item, name='random_item'),
+    path('adminMain', views.adminMain, name='adminMain'),
 ]
