@@ -10,5 +10,7 @@ urlpatterns = [
     path('genlist',views.genBucketList, name='genlist'),
     path('list', views.list, name='list'),
     path('search', views.search, name='search'),
+    path('login', views.login, name='login'),
+    path('register', views.register, name='register'),
     path('adminMain', views.adminMain, name='adminMain')
 ]
