@@ -3,6 +3,7 @@
  -->
 {% include "otterbucket_app/header.html" %}
     {% if bucketItems %}
+            <div>
             {% for item in bucketItems %}
                 <h5 >{{item.title}}</h5>
                 <p>{{item.text}}</p>
