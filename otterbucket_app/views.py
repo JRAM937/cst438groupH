@@ -28,3 +28,8 @@ def adminMain(request):
 # TODO: Implement search
 def search(request):
     return render(request, 'otterbucket_app/search')
+
+# TODO: Implement random_item
+def random_item(request):
+    return render(request, 'otterbucket_app/random_item.html')
+
