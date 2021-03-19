@@ -6,7 +6,7 @@ from .models import BucketItem,BucketList,User
 # Create your views here.
 # index is the name used in urls.py to call this function
 def index(request):
-    return render(request, 'otterbucket_app/mainPage.html')
+    return render(request, 'otterbucket_app/main-page.html')
 
 def genBucketList(request):
     for i in range(10):
@@ -17,7 +17,7 @@ def genBucketList(request):
 def list(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
-    return render(request, 'otterbucket_app/display_list.html', context)
+    return render(request, 'otterbucket_app/display-list.html', context)
 
 def login(request):
     bucketItems = BucketItem.objects.all()
@@ -33,7 +33,10 @@ def register(request):
 def adminMain(request):
     items = BucketItem.objects.all()
     context = {'items': items}
-    return render(request, 'otterbucket_app/adminMain.html', context)
+    return render(request, 'otterbucket_app/admin-main.html', context)
+
+def adminAddItem(request):
+    return render(request, 'otterbucket_app/admin-add-item.html')
 
 def manualAddItem(request):
     b = BucketItem(title=request.POST['title'], text=request.POST['text'])
@@ -45,13 +48,9 @@ def manualAddUser(request):
     u.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
-
-def adminAddItem(request):
-    return render(request, 'otterbucket_app/adminAddItem.html')
-
 # TODO: Implement search
 def search(request):
-    return render(request, 'otterbucket_app/search')
+    return render(request, 'otterbucket_app/search.html')
 
 #register a user
 def registerUser(request):
@@ -68,19 +67,19 @@ def registerUser(request):
 
 #Log in a user
 def loginUser(request):
-    typed_user = request.POST['username']
-    typed_pass = request.POST['password']
-    checkUser = User.objects.filter(username = typed_user).exists()
+    typedUser = request.POST['username']
+    typedPass = request.POST['password']
+    checkUser = User.objects.filter(username = typedUser).exists()
 
     if checkUser == True:
-        validUser = User.objects.get(username = typed_user)
-        if validUser.password == typed_pass:
-            request.session['Username'] = typed_user
+        validUser = User.objects.get(username = typedUser)
+        if validUser.password == typedPass:
+            request.session['Username'] = typedUser
             print("Login Success!")
             return HttpResponseRedirect(reverse('index'))
     else:
         return HttpResponseRedirect(reverse('login'))
       
 # TODO: Implement random_item
-def random_item(request):
-    return render(request, 'otterbucket_app/random_item.html')
+def randomItem(request):
+    return render(request, 'otterbucket_app/random-item.html')
