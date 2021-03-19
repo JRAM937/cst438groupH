@@ -10,18 +10,18 @@
         <h1 style="text-align:center">Welcome to OtterBucket!</h1>
         <h2 style="text-align:center">Please create a username and password:</h2>
         <br>
-        <form action="" method="post">
+        <form action="/registerUser" method="POST">
             <div style="text-align:center">
 
-                <input type="text" style='padding: 4px' placeholder="Username" name="username">
+                <input type="text" style='padding: 4px' placeholder="Username" name="username" id="Username">
             </div>
             <div style="text-align:center">
-                <input type="password" style='padding: 4px' placeholder="Password" name="password">
+                <input type="password" style='padding: 4px' placeholder="Password" name="password" id="Password">
             </div>
             <div style="text-align:center">
-                <input style='padding: 4px' class="btn btn-default" type="submit" value="Create Account">
-                <a href='/list'> </a>
-                </input>
+                <button style='padding: 4px' class="btn btn-default" value="Create Account">
+                    Create Account
+                </button>
             </div>
         </form>
     </div>

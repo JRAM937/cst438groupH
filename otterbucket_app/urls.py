@@ -13,5 +13,9 @@ urlpatterns = [
     path('adminMain', views.adminMain, name='adminMain'),
     path('adminAddItem', views.adminAddItem, name='adminAddItem'),
     path('manualAddItem', views.manualAddItem, name='manualAddItem'),
-    path('manualAddUser', views.manualAddUser, name='manualAddUser')
+    path('manualAddUser', views.manualAddUser, name='manualAddUser'),
+    path('login', views.login, name='login'),
+    path('register', views.register, name='register'),
+    path('registerUser', views.registerUser, name='registerUser'),
+    path('loginUser', views.loginUser, name='loginUser')
 ]

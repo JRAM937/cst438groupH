@@ -8,20 +8,20 @@
 <body>
     <div class="container">
 
-        <form action="" method="post">
+        <form action="/loginUser" method="POST">
             <h1 style="text-align:center">Sign in to OtterBucket</h1>
             <br>
             <div style="text-align:center">
 
-                <input type="text" style='padding: 4px' placeholder="Username" name="username">
+                <input type="text" style='padding: 4px' placeholder="Username" name="username" id="Username">
             </div>
             <div style="text-align:center">
-                <input type="password" style='padding: 4px' placeholder="Password" name="password">
+                <input type="password" style='padding: 4px' placeholder="Password" name="password" id="Password">
             </div>
             <div style="text-align:center">
-                <input style='padding: 4px' class="btn btn-default" type="submit" value="Login">
-                <a href='/list'> </a>
-                </input>
+                <button style='padding: 4px' class="btn btn-default" value="Login">
+                    Login
+                </button>
             </div>
             <div style="text-align:center">
                 <p>Dont have an account? <a href='/register'>Make One Here</a></p>
