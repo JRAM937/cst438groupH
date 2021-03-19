@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import BucketItem,BucketList,User
 
@@ -38,3 +38,31 @@ def adminMain(request):
 # TODO: Implement search
 def search(request):
     return render(request, 'otterbucket_app/search')
+
+#register a user
+def registerUser(request):
+    newUser = request.POST['username']
+    newPass = request.POST['password']
+    check = User.objects.filter(username = newUser).exists()
+
+    if check == False:
+        U = User(username = newUser, password = newPass)
+        U.save()
+        return HttpResponseRedirect(reverse('login'))
+    else:
+        return redirect('/register')
+
+#Log in a user
+def loginUser(request):
+    typed_user = request.POST['username']
+    typed_pass = request.POST['password']
+    checkUser = User.objects.filter(username = typed_user).exists()
+
+    if checkUser == True:
+        validUser = User.objects.get(username = typed_user)
+        if validUser.password == typed_pass:
+            request.session['Username'] = typed_user
+            print("Login Success!")
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        return HttpResponseRedirect(reverse('login'))
