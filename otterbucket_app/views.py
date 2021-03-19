@@ -66,3 +66,7 @@ def loginUser(request):
             return HttpResponseRedirect(reverse('index'))
     else:
         return HttpResponseRedirect(reverse('login'))
+      
+# TODO: Implement random_item
+def random_item(request):
+    return render(request, 'otterbucket_app/random_item.html')
