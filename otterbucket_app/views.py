@@ -41,16 +41,16 @@ def adminAddItem(request):
 def manualAddItem(request):
     b = BucketItem(title=request.POST['title'], text=request.POST['text'])
     b.save()
-    return HttpResponseRedirect(reverse('admin-main'))
+    return HttpResponseRedirect(reverse('adminMain'))
 
 def manualAddUser(request):
     u = User(username=request.POST['username'], password=request.POST['password'])
     u.save()
-    return HttpResponseRedirect(reverse('admin-main'))
+    return HttpResponseRedirect(reverse('adminMain'))
 
 # TODO: Implement search
 def search(request):
-    return render(request, 'otterbucket_app/search')
+    return render(request, 'otterbucket_app/search.html')
 
 #register a user
 def registerUser(request):
@@ -81,5 +81,5 @@ def loginUser(request):
         return HttpResponseRedirect(reverse('login'))
       
 # TODO: Implement random_item
-def random_item(request):
+def randomItem(request):
     return render(request, 'otterbucket_app/random-item.html')
