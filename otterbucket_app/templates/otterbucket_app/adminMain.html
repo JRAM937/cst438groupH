@@ -2,7 +2,7 @@
 <div class="row">
 
     <div class="col">
-        <a class="btn btn-primary">Add User</a>
+        <a href="/adminAddUser" class="btn btn-primary">Add User</a>
         {% if users %}
             {% for user in users %}
                 <h5>{{user.username}}</h5>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="col">
-        <a class="btn btn-primary">Add Item</a>
+        <a href="/adminAddItem" class="btn btn-primary">Add Item</a>
         {% if items %}
             {% for item in items %}
                 <h5>{{item.title}}</h5>
