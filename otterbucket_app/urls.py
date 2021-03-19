@@ -10,6 +10,9 @@ urlpatterns = [
     path('genlist',views.genBucketList, name='genlist'),
     path('list', views.list, name='list'),
     path('search', views.search, name='search'),
-    path('random_item', views.random_item, name='random_item'),
+    path('login', views.login, name='login'),
+    path('register', views.register, name='register'),
     path('adminMain', views.adminMain, name='adminMain'),
+    path('registerUser', views.registerUser, name='registerUser'),
+    path('loginUser', views.loginUser, name='loginUser')
 ]
