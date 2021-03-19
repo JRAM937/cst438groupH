@@ -38,12 +38,12 @@ def adminMain(request):
 def manualAddItem(request):
     b = BucketItem(title=request.POST['title'], text=request.POST['text'])
     b.save()
-    return redirect(request, '/adminMain')
+    return HttpResponseRedirect(reverse('adminMain'))
 
 def manualAddUser(request):
     u = User(username=request.POST['username'], password=request.POST['password'])
     u.save()
-    return redirect(request, '/adminMain')
+    return HttpResponseRedirect(reverse('adminMain'))
 
 
 def adminAddItem(request):
