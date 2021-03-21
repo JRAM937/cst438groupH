@@ -19,4 +19,6 @@ urlpatterns = [
     path('registerUser', views.registerUser, name='registerUser'),
     path('loginUser', views.loginUser, name='loginUser'),
     path('random-item', views.randomItem, name='randomItem'),
+    path('login-failed', views.loginUser, name='loginFailed'),
+    path('register-failed', views.registerUser, name='registerFailed')
 ]
