@@ -63,7 +63,7 @@ def registerUser(request):
         U.save()
         return HttpResponseRedirect(reverse('login'))
     else:
-        return redirect('/register')
+        return render(request, 'otterbucket_app/register-failed.html')
 
 #Log in a user
 def loginUser(request):
@@ -78,7 +78,7 @@ def loginUser(request):
             print("Login Success!")
             return HttpResponseRedirect(reverse('index'))
     else:
-        return HttpResponseRedirect(reverse('login'))
+        return render(request, 'otterbucket_app/login-failed.html')
       
 # TODO: Implement random_item
 def randomItem(request):
