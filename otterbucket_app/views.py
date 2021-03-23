@@ -79,6 +79,9 @@ def loginUser(request):
             return HttpResponseRedirect(reverse('index'))
     else:
         return render(request, 'otterbucket_app/login-failed.html')
+
+def editUser(request):
+    return 0
       
 # TODO: Implement random_item
 def randomItem(request):
