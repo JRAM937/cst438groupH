@@ -21,5 +21,6 @@ urlpatterns = [
     path('random-item', views.randomItem, name='randomItem'),
     path('login-failed', views.loginUser, name='loginFailed'),
     path('register-failed', views.registerUser, name='registerFailed'),
+    path('logged-out', views.logout, name='loggedOut'),
     path('edit-user', views.editUser, name='editUser')
 ]

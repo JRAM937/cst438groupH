@@ -82,6 +82,10 @@ def loginUser(request):
 
 def editUser(request):
     return 0
+
+def logout(request):
+    request.session.flush()
+    return render(request, 'otterbucket_app/logged-out.html')
       
 # TODO: Implement random_item
 def randomItem(request):
