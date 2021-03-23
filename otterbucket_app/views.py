@@ -8,49 +8,104 @@ from .models import BucketItem,BucketList,User
 def index(request):
     return render(request, 'otterbucket_app/main-page.html')
 
+
 def genBucketList(request):
     for i in range(10):
         b = BucketItem(title=i, text="text")
         b.save()
     return redirect('/list')
 
+
 def list(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
     return render(request, 'otterbucket_app/display-list.html', context)
+
 
 def login(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
     return render(request, 'otterbucket_app/login.html', context)
 
+
 def register(request):
     bucketItems = BucketItem.objects.all()
     context = {'bucketItems': bucketItems}
     return render(request, 'otterbucket_app/register.html', context)
 
+
 # TODO: Check if admin.
 def adminMain(request):
     items = BucketItem.objects.all()
-    context = {'items': items}
+    users = User.objects.all()
+    context = {'items': items, 'users': users}
     return render(request, 'otterbucket_app/admin-main.html', context)
+
 
 def adminAddItem(request):
     return render(request, 'otterbucket_app/admin-add-item.html')
+
 
 def manualAddItem(request):
     b = BucketItem(title=request.POST['title'], text=request.POST['text'])
     b.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
+
+def adminAddUser(request):
+    return render(request, 'otterbucket_app/admin-add-user.html')
+
+
 def manualAddUser(request):
     u = User(username=request.POST['username'], password=request.POST['password'])
     u.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
+
+def adminUpdateItem(request, itemId):
+    item = BucketItem.objects.get(id=itemId)
+    context = {'item': item}
+    return render(request, 'otterbucket_app/admin-update-item.html', context)
+
+
+def manualUpdateItem(request):
+    item = BucketItem.objects.get(id=request.POST['itemId'])
+    item.title = request.POST['title']
+    item.text = request.POST['text']
+    item.save()
+    return HttpResponseRedirect(reverse('adminMain'))
+
+
+def adminUpdateUser(request, userId):
+    user = User.objects.get(id=userId)
+    context = {'user': user}
+    return render(request, 'otterbucket_app/admin-update-user.html', context)
+
+
+def manualUpdateUser(request):
+    user = User.objects.get(id=request.POST['userId'])
+    user.username = request.POST['username']
+    user.password = request.POST['password']
+    user.save()
+    return HttpResponseRedirect(reverse('adminMain'))
+
+
+def manualDeleteItem(request):
+    item = BucketItem.objects.get(id=request.POST['itemId'])
+    item.delete()
+    return HttpResponseRedirect(reverse('adminMain'))
+
+
+def manualDeleteUser(request):
+    user = User.objects.get(id=request.POST['userId'])
+    user.delete()
+    return HttpResponseRedirect(reverse('adminMain'))
+
+
 # TODO: Implement search
 def search(request):
     return render(request, 'otterbucket_app/search.html')
+
 
 #register a user
 def registerUser(request):
@@ -64,6 +119,7 @@ def registerUser(request):
         return HttpResponseRedirect(reverse('login'))
     else:
         return render(request, 'otterbucket_app/register-failed.html')
+
 
 #Log in a user
 def loginUser(request):

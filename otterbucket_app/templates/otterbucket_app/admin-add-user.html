@@ -1,8 +1,10 @@
 {% include "otterbucket_app/header.html" %}
-    <form>
-        <label for="username">Username:</label> <input type="text" id="username" name="username">
+
+    <form action="/manualAddUser" method="POST">
+        <label for="username">Username: </label> <input type="text" id="username" name="username">
         <br><br>
         <label for="password">Password: <input type="password" id="password" name="password">
+        <button>Submit</button>
     </form>
 
 </body>
