@@ -21,5 +21,6 @@ urlpatterns = [
     path('random-item', views.randomItem, name='randomItem'),
     path('login-failed', views.loginUser, name='loginFailed'),
     path('register-failed', views.registerUser, name='registerFailed'),
-    path('user-list', views.userList, name='userList')
+    path('user-list', views.userList, name='userList'),
+    path('item/<int:item_id>',views.itemPage, name='itemPage'),
 ]

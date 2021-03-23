@@ -1,5 +1,20 @@
 {% include "otterbucket_app/header.html" %}
-<h5>Search Page</h5>
+<form class = 'form-group'> 
+    <input type = 'text' class="form-control" name = 'title' placeholder = 'Search'>
+    <small id="emailHelp" class="form-text text-muted">Enter a keyword to get relavant result</small>
+</form>
+
+{% if bucketItems %}
+            <div>
+            {% for item in bucketItems %}
+                <h5 >{{item.title}}</h5>
+                <p>{{item.text}}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No items in this bucket list</p>
+    {% endif %}
+
 
 </body>
 </html>

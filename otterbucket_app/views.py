@@ -95,3 +95,10 @@ def userList(request):
     bucketItems = BucketItem.objects.filter(id__in=bucketTags)
     context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/user-list.html',context)
+
+def itemPage(request,item_id):
+    item = BucketItem.objects.filter(id=item_id)
+    if(len(item) == 0):
+         return HttpResponse("<a href='/' class='btn btn-danger'>Home</a><h1>Item not found</h1>")
+    context = {'item' : item[0]}
+    return render(request, 'otterbucket_app/item.html', context)
