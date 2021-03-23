@@ -74,7 +74,7 @@ def loginUser(request):
     if checkUser == True:
         validUser = User.objects.get(username = typedUser)
         if validUser.password == typedPass:
-            request.session['Username'] = typedUser
+            request.session['username'] = typedUser
             print("Login Success!")
             return HttpResponseRedirect(reverse('index'))
     else:
@@ -83,3 +83,15 @@ def loginUser(request):
 # TODO: Implement random_item
 def randomItem(request):
     return render(request, 'otterbucket_app/random-item.html')
+
+
+def userList(request):
+    if(request.session.get('username',None) == None):
+        return HttpResponseRedirect(reverse('login'))
+    username = request.session['username']
+    context = {'username': username}
+    user = User.objects.get(username = username)
+    bucketTags = BucketList.objects.filter(user = user)
+    bucketItems = BucketItem.objects.filter(id__in=bucketTags)
+    context['bucketItems'] = bucketItems
+    return render(request, 'otterbucket_app/user-list.html',context)

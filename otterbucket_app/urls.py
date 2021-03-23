@@ -20,5 +20,6 @@ urlpatterns = [
     path('loginUser', views.loginUser, name='loginUser'),
     path('random-item', views.randomItem, name='randomItem'),
     path('login-failed', views.loginUser, name='loginFailed'),
-    path('register-failed', views.registerUser, name='registerFailed')
+    path('register-failed', views.registerUser, name='registerFailed'),
+    path('user-list', views.userList, name='userList')
 ]
