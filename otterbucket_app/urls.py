@@ -9,7 +9,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('genlist',views.genBucketList, name='genlist'),
     path('list', views.list, name='list'),
-    path('search', views.search, name='search'),
     path('adminMain', views.adminMain, name='adminMain'),
     path('adminAddItem', views.adminAddItem, name='adminAddItem'),
     path('manualAddItem', views.manualAddItem, name='manualAddItem'),
@@ -23,4 +22,6 @@ urlpatterns = [
     path('register-failed', views.registerUser, name='registerFailed'),
     path('user-list', views.userList, name='userList'),
     path('item/<int:item_id>',views.itemPage, name='itemPage'),
+    path('search', views.search, name='search'),
+    path('search-result', views.searchResult, name='searchResult'),
 ]

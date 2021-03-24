@@ -1,9 +1,14 @@
 {% include "otterbucket_app/header.html" %}
-<form class = 'form-group'> 
-    <input type = 'text' class="form-control" name = 'title' placeholder = 'Search'>
-    <small id="emailHelp" class="form-text text-muted">Enter a keyword to get relavant result</small>
-</form>
-
+<form method='POST' action='/search-result'>
+    <div class="row">
+        <div class='col-md-1'>
+            <button class='btn btn-primary'>Search</button>
+        </div>
+        <div class='form-group col-md-6'>
+            <input type = 'text' class="form-control" name = 'search' placeholder = 'Search'>
+            <label for='search' class="form-text text-muted">Enter a keyword to get relavant result</small>        
+        </div>
+  </form>
 {% if bucketItems %}
             <div>
             {% for item in bucketItems %}
@@ -12,8 +17,7 @@
             </div>
         {% endfor %}
     {% else %}
-        <p>No items in this bucket list</p>
-    {% endif %}
+{% endif %}
 
 
 </body>

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 
+from django.db.models import Q
+
 from .models import BucketItem,BucketList,User
 
 # Create your views here.
@@ -48,10 +50,6 @@ def manualAddUser(request):
     u.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
-# TODO: Implement search
-def search(request):
-    return render(request, 'otterbucket_app/search.html')
-
 #register a user
 def registerUser(request):
     newUser = request.POST['username']
@@ -84,6 +82,16 @@ def loginUser(request):
 def randomItem(request):
     return render(request, 'otterbucket_app/random-item.html')
 
+def search(request):
+    return render(request, 'otterbucket_app/search.html')
+
+def searchResult(request):
+    search = request.POST['search']
+    context = {}
+    query = Q(title__contains=search) | Q(text__contains=search)
+    items = BucketItem.objects.filter(query)
+    context['bucketItems'] = items
+    return render(request, 'otterBucket_app/search.html',context)
 
 def userList(request):
     if(request.session.get('username',None) == None):
@@ -91,8 +99,8 @@ def userList(request):
     username = request.session['username']
     context = {'username': username}
     user = User.objects.get(username = username)
-    bucketTags = BucketList.objects.filter(user = user)
-    bucketItems = BucketItem.objects.filter(id__in=bucketTags)
+    bucketIds = BucketList.objects.filter(user = user)
+    bucketItems = BucketItem.objects.filter(id__in=bucketIds)
     context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/user-list.html',context)
 
@@ -101,4 +109,9 @@ def itemPage(request,item_id):
     if(len(item) == 0):
          return HttpResponse("<a href='/' class='btn btn-danger'>Home</a><h1>Item not found</h1>")
     context = {'item' : item[0]}
+    if(request.session.get('username',None) != None):
+        u = User.objects.get(username = request.session.get('username'))
+        context['username'] = u.username
+        context['user_id'] = u.id
     return render(request, 'otterbucket_app/item.html', context)
+

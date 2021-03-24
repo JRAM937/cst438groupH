@@ -6,6 +6,10 @@
          <div>
              <h5 >{{item.title}}</h5>
              <p>{{item.text}}</p>
+             {% if username %}
+             <form action = '/add-item/{{username}}' methdo='POST' class = 'form-group'>
+                
+            </form>
          </div>
  {% else %}
      <p>Item not found</p>
