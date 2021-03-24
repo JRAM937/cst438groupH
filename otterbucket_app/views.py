@@ -115,3 +115,8 @@ def itemPage(request,item_id):
         context['user_id'] = u.id
     return render(request, 'otterbucket_app/item.html', context)
 
+#to do at item to bucketlist
+def userAddItem(request):
+    itemId = request.POST['itemId']
+    print(itemId)
+    return HttpResponseRedirect(reverse('itemPage',args=[itemId]))

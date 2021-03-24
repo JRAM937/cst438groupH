@@ -12,7 +12,7 @@
 {% if bucketItems %}
             <div>
             {% for item in bucketItems %}
-                <h5 >{{item.title}}</h5>
+                <h5 ><a href='/item/{{item.id}}'>{{item.title}}</a></h5>
                 <p>{{item.text}}</p>
             </div>
         {% endfor %}

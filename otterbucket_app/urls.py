@@ -24,4 +24,5 @@ urlpatterns = [
     path('item/<int:item_id>',views.itemPage, name='itemPage'),
     path('search', views.search, name='search'),
     path('search-result', views.searchResult, name='searchResult'),
+    path('user-add-item', views.userAddItem, name='userAddItem'),
 ]
