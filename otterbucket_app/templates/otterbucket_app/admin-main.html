@@ -8,11 +8,11 @@
                 <h5>{{user.username}}</h5>
                 <div class="row">
                     <div class="col">
-                        <a href="/updateUser?userId={{user.id}}">Update</a>
+                        <a href="/adminUpdateUser/{{user.id}}">Update</a>
                     </div>
                     <div class="col">
-                        <form>
-                            <button id="{{user.id}}">Delete</button>
+                        <form action="/manualDeleteUser" method="POST">
+                            <button value="{{user.id}}" id="{{user.id}}" name="userId">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -28,11 +28,11 @@
                 <p>{{item.text}}</p>
                 <div class="row">
                     <div class="col">
-                        <a href="/updateItem?itemId={{item.id}}">Update</a>
+                        <a href="/adminUpdateItem/{{item.id}}">Update</a>
                     </div>
                     <div class="col">
-                        <form>
-                            <button id="{{item.id}}">Delete</button>
+                        <form action="/manualDeleteItem" method="POST">
+                            <button value="{{item.id}}" id="{{item.id}}" name="itemId">Delete</button>
                         </form>
                     </div>
                 </div>
