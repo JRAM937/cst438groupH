@@ -6,11 +6,11 @@
         <h1>{{ username }}</h1>
     </div>
     {% if bucketItems %}
-            <div>
-            {% for item in bucketItems %}
-                <h5 >{{item.title}}</h5>
-                <p>{{item.text}}</p>
-            </div>
+        <div>
+        {% for item in bucketItems %}
+            <h5 ><a href='/item/{{item.id}}'>{{item.title}}</a></h5>
+            <p>{{item.text}}</p>
+        </div>
         {% endfor %}
     {% else %}
         <p>No items in this bucket list</p>

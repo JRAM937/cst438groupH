@@ -154,7 +154,7 @@ def userList(request):
     username = request.session['username']
     context = {'username': username}
     user = User.objects.get(username = username)
-    bucketIds = BucketList.objects.filter(user = user)
+    bucketIds = BucketList.objects.filter(user = user).values_list('bucket_item')
     bucketItems = BucketItem.objects.filter(id__in=bucketIds)
     context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/user-list.html',context)
@@ -173,5 +173,12 @@ def itemPage(request,item_id):
 #to do at item to bucketlist
 def userAddItem(request):
     itemId = request.POST['itemId']
-    print(itemId)
+    
+    user = User.objects.get(username=request.session['username'])
+    item = BucketItem.objects.get(id=itemId)
+    print(user)
+    print(item)
+    l = BucketList(user=user,bucket_item=item)
+    print(l)
+    l.save()
     return HttpResponseRedirect(reverse('itemPage',args=[itemId]))
