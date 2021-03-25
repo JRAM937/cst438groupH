@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core import serializers
 
 from .models import BucketItem,BucketList,User
 
@@ -82,4 +83,32 @@ def loginUser(request):
       
 # TODO: Implement random_item
 def randomItem(request):
-    return render(request, 'otterbucket_app/random-item.html')
+    if(request.session.get('Username',None) == None):
+        return HttpResponseRedirect(reverse('login'))
+
+    context = {}
+    username = request.session['Username']
+
+    user = User.objects.get(username = username)
+    
+    #=====================================================================
+    #The following two lines of code only work if the user has a list. The 
+    #third line allows for debugging should the user have no way to create
+    #a list.
+    #---------------------------------------------------------------------
+
+    bucketIds = BucketList.objects.filter(user = user)
+    bucketItems = BucketItem.objects.filter(id__in=bucketIds)
+
+    #---------------------------------------------------------------------
+    #Should the user have no way to create a list, comment out the
+    #previous two lines of code and then uncomment the code below.
+    #-------------------------------------------------------------
+    #bucketItems = BucketItem.objects.all()
+    #-------------------------------------------------------------
+    #=====================================================================
+
+    bucketItemJson = serializers.serialize('json', bucketItems)
+    context['bucketItems'] = bucketItemJson
+
+    return render(request, 'otterbucket_app/random-item.html', context)
