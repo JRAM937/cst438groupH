@@ -1,5 +1,24 @@
 {% include "otterbucket_app/header.html" %}
-<h5>Search Page</h5>
+<form method='POST' action='/search-result'>
+    <div class="row">
+        <div class='col-md-1'>
+            <button class='btn btn-primary'>Search</button>
+        </div>
+        <div class='form-group col-md-6'>
+            <input type = 'text' class="form-control" name = 'search' placeholder = 'Search'>
+            <label for='search' class="form-text text-muted">Enter a keyword to get relavant result</small>        
+        </div>
+  </form>
+{% if bucketItems %}
+            <div>
+            {% for item in bucketItems %}
+                <h5 ><a href='/item/{{item.id}}'>{{item.title}}</a></h5>
+                <p>{{item.text}}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+{% endif %}
+
 
 </body>
 </html>

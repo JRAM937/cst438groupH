@@ -1,0 +1,23 @@
+<!--
+    <!DOCTYPE html>
+ -->
+ {% include "otterbucket_app/header.html" %}
+ {% if item %}
+         <div class='row'>
+            <h5 >{{item.title}}</h5>
+            <p>{{item.text}}</p>
+            {% if username %}
+                <form method='POST' action='/user-add-item'>
+                        <div>
+                            <button class='btn btn-primary' name='itemId' id='itemId' value={{item.id}}>Save to bucket list</button>
+                        </div>
+                </form>
+            {% endif %}
+            </form>
+         </div>
+ {% else %}
+     <p>Item not found</p>
+ {% endif %}
+
+</body>
+</html>

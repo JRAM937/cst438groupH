@@ -19,4 +19,4 @@ class BucketList(models.Model):
     user = models.ForeignKey('user',on_delete=models.CASCADE)
     bucket_item = models.ForeignKey('BucketItem', on_delete=models.CASCADE)
     def __str__(self):
-        return "user: " + self.user_id + ", bucket item: " + self.bucket_item_id
+        return "user: " + self.user.__str__() + ", bucket item: " + self.bucket_item.__str__()

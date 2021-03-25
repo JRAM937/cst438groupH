@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
+from django.db.models import Q
 
 from .models import BucketItem,BucketList,User
 
@@ -62,12 +63,10 @@ def manualAddUser(request):
     u.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
-
 def adminUpdateItem(request, itemId):
     item = BucketItem.objects.get(id=itemId)
     context = {'item': item}
     return render(request, 'otterbucket_app/admin-update-item.html', context)
-
 
 def manualUpdateItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
@@ -76,12 +75,10 @@ def manualUpdateItem(request):
     item.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
-
 def adminUpdateUser(request, userId):
     user = User.objects.get(id=userId)
     context = {'user': user}
     return render(request, 'otterbucket_app/admin-update-user.html', context)
-
 
 def manualUpdateUser(request):
     user = User.objects.get(id=request.POST['userId'])
@@ -90,24 +87,16 @@ def manualUpdateUser(request):
     user.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
-
 def manualDeleteItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
     item.delete()
     return HttpResponseRedirect(reverse('adminMain'))
 
-
 def manualDeleteUser(request):
     user = User.objects.get(id=request.POST['userId'])
     user.delete()
     return HttpResponseRedirect(reverse('adminMain'))
-
-
-# TODO: Implement search
-def search(request):
-    return render(request, 'otterbucket_app/search.html')
-
-
+    
 #register a user
 def registerUser(request):
     newUser = request.POST['username']
@@ -131,7 +120,7 @@ def loginUser(request):
     if checkUser == True:
         validUser = User.objects.get(username = typedUser)
         if validUser.password == typedPass:
-            request.session['Username'] = typedUser
+            request.session['username'] = typedUser
             print("Login Success!")
             return HttpResponseRedirect(reverse('index'))
     else:
@@ -143,8 +132,61 @@ def editUser(request):
 def logout(request):
     request.session.flush()
     return render(request, 'otterbucket_app/logged-out.html')
-      
-# TODO: Implement random_item
+
+def search(request):
+    return render(request, 'otterbucket_app/search.html')
+
+def searchResult(request):
+    search = request.POST['search']
+    context = {}
+    query = Q(title__contains=search) | Q(text__contains=search)
+    items = BucketItem.objects.filter(query)
+    context['bucketItems'] = items
+    return render(request, 'otterBucket_app/search.html',context)
+
+def userList(request):
+    if(request.session.get('username',None) == None):
+        return HttpResponseRedirect(reverse('login'))
+    username = request.session['username']
+    context = {'username': username}
+    user = User.objects.get(username = username)
+    bucketIds = BucketList.objects.filter(user = user).values_list('bucket_item')
+    bucketItems = BucketItem.objects.filter(id__in=bucketIds)
+    context['bucketItems'] = bucketItems
+    return render(request, 'otterbucket_app/user-list.html',context)
+
+def itemPage(request,item_id):
+    item = BucketItem.objects.filter(id=item_id)
+    if(len(item) == 0):
+         return HttpResponse("<a href='/' class='btn btn-danger'>Home</a><h1>Item not found</h1>")
+    context = {'item' : item[0]}
+    if(request.session.get('username',None) != None):
+        u = User.objects.get(username = request.session.get('username'))
+        context['username'] = u.username
+        context['user_id'] = u.id
+    return render(request, 'otterbucket_app/item.html', context)
+
+#to do at item to bucketlist
+def userAddItem(request):
+    itemId = request.POST['itemId']
+    
+    user = User.objects.get(username=request.session['username'])
+    item = BucketItem.objects.get(id=itemId)
+    print(user)
+    print(item)
+    l = BucketList(user=user,bucket_item=item)
+    print(l)
+    l.save()
+    return HttpResponseRedirect(reverse('itemPage',args=[itemId]))
+
+def userRemoveItem(request):
+    itemId = request.POST['itemId']
+    user = User.objects.get(username=request.session['username'])
+    item = BucketItem.objects.get(id=itemId)
+    l = BucketList.objects.filter(user=user,bucket_item=item)
+    l.delete()
+    return HttpResponseRedirect(reverse('userList'))
+
 def randomItem(request):
     if(request.session.get('Username',None) == None):
         return HttpResponseRedirect(reverse('login'))
