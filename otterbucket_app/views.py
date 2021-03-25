@@ -117,7 +117,7 @@ def loginUser(request):
     typedPass = request.POST['password']
     checkUser = User.objects.filter(username = typedUser).exists()
 
-    if checkUser == True:
+    if checkUser:
         validUser = User.objects.get(username = typedUser)
         if validUser.password == typedPass:
             request.session['username'] = typedUser
@@ -126,9 +126,19 @@ def loginUser(request):
     else:
         return render(request, 'otterbucket_app/login-failed.html')
 
+#Edit username
 def editUser(request):
-    return 0
+    typedUser = request.POST['username']
+    request.session.get['username'] = typedUser
+    return HttpResponseRedirect(reverse('login'))
 
+#edit Password
+def editPass(request):
+    typedPass = request.POST['password']
+    request.session.get['password'] = typedPass
+    return HttpResponseRedirect(reverse('login'))
+
+#log out of an account
 def logout(request):
     request.session.flush()
     return render(request, 'otterbucket_app/logged-out.html')
