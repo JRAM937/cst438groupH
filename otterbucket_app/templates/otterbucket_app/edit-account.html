@@ -7,16 +7,22 @@
 </head>
 
 <body>
+    <div style="text-align left">
+        <h3>Edit Account</h3>
+    </div>
     <form action="/editUser" method="POST">
-        <div style="text-align left">
-            <h3>Username: *user goes here*</h3>
-        </div>
         <div style="text-align:left">
+            <input type="text" style='padding: 4px' placeholder="Username" name="username" id="Username">
             <input style='padding: 4px' class="btn btn-default" type="submit" value="Change Username">
         </div>
+    </form>
+    <form action="/editPass" method="POST">
         <div style="text-align:left">
+            <input type="text" style='padding: 4px' placeholder="Password" name="password" id="Password">
             <input style='padding: 4px' class="btn btn-default" type="submit" value="Change Password">
         </div>
+    </form>
+    <form action="manuelDeleteUser" method="POST">
         <div style="text-align:left">
             <input style='padding: 4px' class="btn btn-default" type="submit" value="Delete Account">
         </div>

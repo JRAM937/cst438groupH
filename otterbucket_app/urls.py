@@ -34,5 +34,6 @@ urlpatterns = [
     path('user-add-item', views.userAddItem, name='userAddItem'),
     path('user-remove-item', views.userRemoveItem, name='userRemoveItem'),
     path('logged-out', views.logout, name='loggedOut'),
-    path('edit-user', views.editUser, name='editUser')
+    path('edit-user', views.editUser, name='editUser'),
+    path('edit-pass', views.editPass, name='editPass')
 ]
