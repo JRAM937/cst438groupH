@@ -126,17 +126,12 @@ def loginUser(request):
     else:
         return render(request, 'otterbucket_app/login-failed.html')
 
-#Edit username
-def editUser(request):
-    typedUser = request.POST['username']
-    request.session.get['username'] = typedUser
-    return HttpResponseRedirect(reverse('login'))
-
-#edit Password
-def editPass(request):
-    typedPass = request.POST['password']
-    request.session.get['password'] = typedPass
-    return HttpResponseRedirect(reverse('login'))
+#Edit Account page
+def editAccount(request):
+    currUser = request.session['username']
+    u = User.objects.get(username = currUser)
+    context = {"userid" : u.id, "username" : u.username, "password" : u.password}
+    return render(request, 'otterbucket_app/edit-account.html', context)
 
 #log out of an account
 def logout(request):

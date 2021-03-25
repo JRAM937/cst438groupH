@@ -10,21 +10,25 @@
     <div style="text-align left">
         <h3>Edit Account</h3>
     </div>
-    <form action="/editUser" method="POST">
+    <form action="/manualUpdateUser" method="POST">
         <div style="text-align:left">
-            <input type="text" style='padding: 4px' placeholder="Username" name="username" id="Username">
-            <input style='padding: 4px' class="btn btn-default" type="submit" value="Change Username">
+            <input type="text" style='padding: 4px' placeholder="Username" value="{{username}}" name="username"  id="username">
+            <button style='padding: 4px' class="btn btn-default" type="submit" value="{{userid}}" name = "userId">
+                Change Username
+            </button>
+        </div>
+        <div style="text-align:left">
+            <input type="text" style='padding: 4px' placeholder="Password" value="{{password}}" name="password" id="password">
+            <button style='padding: 4px' class="btn btn-default" type="submit" value="{{userid}}", name = "userId">
+                Change Password
+                </button>
         </div>
     </form>
-    <form action="/editPass" method="POST">
+    <form action="manualDeleteUser" method="POST">
         <div style="text-align:left">
-            <input type="text" style='padding: 4px' placeholder="Password" name="password" id="Password">
-            <input style='padding: 4px' class="btn btn-default" type="submit" value="Change Password">
-        </div>
-    </form>
-    <form action="manuelDeleteUser" method="POST">
-        <div style="text-align:left">
-            <input style='padding: 4px' class="btn btn-default" type="submit" value="Delete Account">
+            <button style='padding: 4px' class="btn btn-default" type="submit" value="{{userid}}" name = "userId">
+                Delete Account
+            </button>
         </div>
     </form>
 </body>
