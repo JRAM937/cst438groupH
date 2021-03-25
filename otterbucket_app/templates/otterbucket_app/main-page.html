@@ -1,11 +1,41 @@
-<!--
-    <!DOCTYPE html>
- -->
- {% include "otterbucket_app/header.html" %}
-      <h1>This is were you would put a view file</h1>
-      <div>
-         <a href='/list'>To List</a>
-      </div>
+{% include "otterbucket_app/header.html" %}
+
+<!--===================================landing page======================================================================-->
+<!-------------------------The Styles---------------------------------->
+<style>
+   #wrapper{width:100%; height:50px; border:5px solid black;}
+   #bigwrapper{width:100%; height:200px; border:1px solid black;}
+	h1 {text-align: center; font-size: 50px;}
+	h2 {text-align: center; font-size: 25px;}
+</style>
+<!---------------------------------------------------------------------->
+
+   <!----------------------------------------------The Body----------------------------------------------------------->
+   <body>
+      <!--_____The header________-->
+      <h1>What is Otterbucket?</h1>
       
+      <!--________________________________________________________________-->
+      <!--The Wrapper-->
+      <!--________________________________________________________________-->
+      <div id="wrapper">
+         <h2>
+            Otterbucket allows users to create a wishlist of items they want.
+         </h2>
+      </div>
+      <!--________________________________________________________________-->
+      <br>
+      <!--____________________________________________________________________________________________________-->
+      <!--The Big Wrapper-->
+      <!--____________________________________________________________________________________________________-->
+      <div id="bigwrapper">
+         <h2>
+            It also doubles as a "bucket list", allowing the user to generate a random item from their list.
+            This is for those moments when users are indecisive about picking between multiple items to purchase.
+         </h2>
+      </div>
+      <!--____________________________________________________________________________________________________-->
    </body>
+   <!----------------------------------------------The Body----------------------------------------------------------->
 </html>
+<!--===================================landing page======================================================================-->

@@ -1,0 +1,21 @@
+{% include "otterbucket_app/header.html" %}
+
+    <form action="/manualUpdateUser" method="POST">
+        <div class="form-group">
+            <label for="username">Username: </label>
+            <input class="form-control" type="text" value="{{user.username}}" id="username" name="username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password: </label>
+            <input class="form-control" type="password" value="{{user.password}}" id="password" name="password">
+        </div>
+        <hr>
+        <div class="form-group">
+            <button value="{{user.id}}" name="userId">Update</button>
+        </div>
+
+    </form>
+
+</body>
+</html>
