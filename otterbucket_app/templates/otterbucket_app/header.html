@@ -14,11 +14,15 @@
     <nav class = "navbar navbar-expand-lg navbar-light bg-light row">
         <div class = 'col-sm'><a class = "btn btn-primary" href = "/">Home</a></div>
         <div class = 'col-sm'><a class = "btn btn-primary" href = "/search">Search Posts</a></div>
+        <div class = 'col-sm'><a class = "btn btn-primary" href = '/random-item'>Get a random item</a></div>
+        {% if username %}
+        <div class = 'col-sm'><a class = "btn btn-primary" href = '/user-list'>My list</a></div>
+        <div class = 'col-sm'><a class = "btn btn-primary" href='/logged-out'>Logout</a></div>
+        {% else %}
         <div class = 'col-sm'><a class = "btn btn-primary" href='/login'>Log In</a></div>
         <div class = 'col-sm'><a class = "btn btn-primary" href='/register'>Create An Account</a></div>
-        <div class = 'col-sm'><a class = "btn btn-primary" href='/random-item'>Get a random item</a></div>
-        <div class = 'col-sm'><a class = "btn btn-primary" href='/logged-out'>Logout</a></div>
-        {% if False %}
+        {% endif %}
+        {% if isAdmin %}
             <div class = 'col-sm'><a class = "btn btn-primary" href = "/adminMain">Admin</a></div>
         {% endif %}
     </nav>

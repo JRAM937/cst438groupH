@@ -63,10 +63,12 @@ def manualAddUser(request):
     u.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
+
 def adminUpdateItem(request, itemId):
     item = BucketItem.objects.get(id=itemId)
     context = {'item': item}
     return render(request, 'otterbucket_app/admin-update-item.html', context)
+
 
 def manualUpdateItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
@@ -75,10 +77,12 @@ def manualUpdateItem(request):
     item.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
+
 def adminUpdateUser(request, userId):
     user = User.objects.get(id=userId)
     context = {'user': user}
     return render(request, 'otterbucket_app/admin-update-user.html', context)
+
 
 def manualUpdateUser(request):
     user = User.objects.get(id=request.POST['userId'])
@@ -87,16 +91,19 @@ def manualUpdateUser(request):
     user.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
+
 def manualDeleteItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
     item.delete()
     return HttpResponseRedirect(reverse('adminMain'))
+
 
 def manualDeleteUser(request):
     user = User.objects.get(id=request.POST['userId'])
     user.delete()
     return HttpResponseRedirect(reverse('adminMain'))
     
+
 #register a user
 def registerUser(request):
     newUser = request.POST['username']
@@ -126,8 +133,10 @@ def loginUser(request):
     else:
         return render(request, 'otterbucket_app/login-failed.html')
 
+
 def editUser(request):
     return 0
+
 
 def logout(request):
     request.session.flush()
@@ -136,6 +145,7 @@ def logout(request):
 def search(request):
     return render(request, 'otterbucket_app/search.html')
 
+
 def searchResult(request):
     search = request.POST['search']
     context = {}
@@ -143,6 +153,7 @@ def searchResult(request):
     items = BucketItem.objects.filter(query)
     context['bucketItems'] = items
     return render(request, 'otterBucket_app/search.html',context)
+
 
 def userList(request):
     if(request.session.get('username',None) == None):
@@ -155,6 +166,7 @@ def userList(request):
     context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/user-list.html',context)
 
+
 def itemPage(request,item_id):
     item = BucketItem.objects.filter(id=item_id)
     if(len(item) == 0):
@@ -165,6 +177,7 @@ def itemPage(request,item_id):
         context['username'] = u.username
         context['user_id'] = u.id
     return render(request, 'otterbucket_app/item.html', context)
+
 
 #to do at item to bucketlist
 def userAddItem(request):
@@ -179,6 +192,7 @@ def userAddItem(request):
     l.save()
     return HttpResponseRedirect(reverse('itemPage',args=[itemId]))
 
+
 def userRemoveItem(request):
     itemId = request.POST['itemId']
     user = User.objects.get(username=request.session['username'])
@@ -186,6 +200,7 @@ def userRemoveItem(request):
     l = BucketList.objects.filter(user=user,bucket_item=item)
     l.delete()
     return HttpResponseRedirect(reverse('userList'))
+
 
 def randomItem(request):
     if(request.session.get('Username',None) == None):
@@ -217,3 +232,20 @@ def randomItem(request):
     context['bucketItems'] = bucketItemJson
 
     return render(request, 'otterbucket_app/random-item.html', context)
+
+
+def isLoggedIn(request):
+    return request.session.get('username',None) != None
+
+
+def buildcontext(request):
+    context = {}
+    if(isLoggedIn(request)):
+        user = User.objects.filter(request.session['username'])
+        userId = user.id
+        username = user.username
+        isAdmin = user.isAdmin
+        context['userId'] = userId
+        context['username'] = username
+        context['isAdmin'] = isAdmin
+    return context
