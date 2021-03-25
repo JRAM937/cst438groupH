@@ -8,8 +8,19 @@
     {% if bucketItems %}
         <div>
         {% for item in bucketItems %}
-            <h5 ><a href='/item/{{item.id}}'>{{item.title}}</a></h5>
-            <p>{{item.text}}</p>
+            <div class='row'>
+                <div class='col-11'>
+                    <h5 ><a href='/item/{{item.id}}'>{{item.title}}</a></h5>
+                    <p>{{item.text}}</p>
+                </div>
+                <div class='col-sm-1'>
+                    <form method='POST' action='/user-remove-item'>
+                    <div>
+                        <button class='btn btn-primary' name='itemId' id='itemId' value={{item.id}}>Delete from list</button>
+                    </div>
+                </form>
+                </div>
+            </div>
         </div>
         {% endfor %}
     {% else %}

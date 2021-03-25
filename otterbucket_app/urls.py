@@ -32,6 +32,7 @@ urlpatterns = [
     path('search', views.search, name='search'),
     path('search-result', views.searchResult, name='searchResult'),
     path('user-add-item', views.userAddItem, name='userAddItem'),
+    path('user-remove-item', views.userRemoveItem, name='userRemoveItem'),
     path('logged-out', views.logout, name='loggedOut'),
     path('edit-user', views.editUser, name='editUser')
 ]

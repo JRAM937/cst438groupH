@@ -182,3 +182,11 @@ def userAddItem(request):
     print(l)
     l.save()
     return HttpResponseRedirect(reverse('itemPage',args=[itemId]))
+
+def userRemoveItem(request):
+    itemId = request.POST['itemId']
+    user = User.objects.get(username=request.session['username'])
+    item = BucketItem.objects.get(id=itemId)
+    l = BucketList.objects.filter(user=user,bucket_item=item)
+    l.delete()
+    return HttpResponseRedirect(reverse('userList'))
