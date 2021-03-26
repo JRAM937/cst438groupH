@@ -272,7 +272,7 @@ def randomItem(request):
         return HttpResponseRedirect(reverse('login'))
 
     context = contextBuilder(request)
-    username = request.session['Username']
+    username = request.session['username']
 
     user = User.objects.get(username = username)
     
