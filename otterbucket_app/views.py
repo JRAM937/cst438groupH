@@ -214,7 +214,7 @@ def searchResult(request):
     query = Q(title__contains=search) | Q(text__contains=search)
     items = BucketItem.objects.filter(query)
     context['bucketItems'] = items
-    return render(request, 'otterBucket_app/search-result.html',context)
+    return render(request, 'otterbucket_app/search.html',context)
 
 
 def userList(request):
