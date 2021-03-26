@@ -8,8 +8,13 @@ from .models import BucketItem,BucketList,User
 # Create your views here.
 # index is the name used in urls.py to call this function
 def index(request):
-    return render(request, 'otterbucket_app/main-page.html')
+    context = contextBuilder(request)
+    print('index with context')
+    return render(request, 'otterbucket_app/main-page.html', context)
 
+def genAdmin():
+    user = User(username='Admin', password='Admin',admin=True)
+    user.save()
 
 def genBucketList(request):
     b = BucketItem(title="Mothman", text="The superhero-movie passion-project, now on DVD!")
@@ -36,46 +41,61 @@ def genBucketList(request):
 
 
 def list(request):
+    context = contextBuilder(request)
     bucketItems = BucketItem.objects.all()
-    context = {'bucketItems': bucketItems}
+    context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/display-list.html', context)
 
 
 def login(request):
+    context = contextBuilder(request)
     bucketItems = BucketItem.objects.all()
-    context = {'bucketItems': bucketItems}
+    context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/login.html', context)
 
 
 def register(request):
+    context = contextBuilder(request)
     bucketItems = BucketItem.objects.all()
-    context = {'bucketItems': bucketItems}
+    context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/register.html', context)
 
-
-# TODO: Check if admin.
 def adminMain(request):
+    if(not User.objects.filter(admin=True).exists()):
+        genAdmin()
+    if(not isAdmin(request)):
+        return HttpResponseRedirect(reverse('index'))
+    context = contextBuilder(request)
     items = BucketItem.objects.all()
     users = User.objects.all()
-    context = {'items': items, 'users': users}
+    context['items'] = items
+    context['users'] = users
     return render(request, 'otterbucket_app/admin-main.html', context)
 
 
 def adminAddItem(request):
-    return render(request, 'otterbucket_app/admin-add-item.html')
+    if(not isAdmin(request)):
+        return HttpResponseRedirect(reverse('index'))
+    return render(request, 'otterbucket_app/admin-add-item.html',context)
 
 
 def manualAddItem(request):
+    if(not isAdmin(request)):
+        return HttpResponseRedirect(reverse('index'))
     b = BucketItem(title=request.POST['title'], text=request.POST['text'])
     b.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
 
 def adminAddUser(request):
-    return render(request, 'otterbucket_app/admin-add-user.html')
+    if(not isAdmin(request)):
+        return HttpResponseRedirect(reverse('index'))
+    return render(request, 'otterbucket_app/admin-add-user.html',context)
 
 
 def manualAddUser(request):
+    if(not isAdmin(request)):
+        return HttpResponseRedirect(reverse('index'))
     check = request.POST['username']
     if not User.objects.filter(username=check).exists():
         u = User(username=request.POST['username'], password=request.POST['password'], admin=request.POST['admin'])
@@ -83,10 +103,14 @@ def manualAddUser(request):
         return HttpResponseRedirect(reverse('adminMain'))
     return HttpResponseRedirect(reverse('addUserFailed'))
 
+
 def adminUpdateItem(request, itemId):
+    if(not isAdmin(request)):
+        return HttpResponseRedirect(reverse('index'))
     item = BucketItem.objects.get(id=itemId)
     context = {'item': item}
     return render(request, 'otterbucket_app/admin-update-item.html', context)
+
 
 def manualUpdateItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
@@ -95,10 +119,13 @@ def manualUpdateItem(request):
     item.save()
     return HttpResponseRedirect(reverse('adminMain'))
 
+
 def adminUpdateUser(request, userId):
+    context = contextBuilder
     user = User.objects.get(id=userId)
-    context = {'user': user}
+    context['user'] = user
     return render(request, 'otterbucket_app/admin-update-user.html', context)
+
 
 def manualUpdateUser(request):
     checkName = request.POST['username']
@@ -120,16 +147,19 @@ def manualUpdateUser(request):
     return render(request, 'otterbucket_app/update-user-failed.html')
 
 
+
 def manualDeleteItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
     item.delete()
     return HttpResponseRedirect(reverse('adminMain'))
+
 
 def manualDeleteUser(request):
     user = User.objects.get(id=request.POST['userId'])
     user.delete()
     return HttpResponseRedirect(reverse('adminMain'))
     
+
 #register a user
 def registerUser(request):
     newUser = request.POST['username']
@@ -161,9 +191,10 @@ def loginUser(request):
 
 #Edit Account page
 def editAccount(request):
+    context = contextBuilder
     currUser = request.session['username']
     u = User.objects.get(username = currUser)
-    context = {"userid" : u.id, "username" : u.username, "password" : u.password}
+    context["password"] = u.password
     return render(request, 'otterbucket_app/edit-account.html', context)
 
 #log out of an account
@@ -174,35 +205,40 @@ def logout(request):
 def search(request):
     return render(request, 'otterbucket_app/search.html')
 
+
 def searchResult(request):
     search = request.POST['search']
-    context = {}
+    context = contextBuilder
     query = Q(title__contains=search) | Q(text__contains=search)
     items = BucketItem.objects.filter(query)
     context['bucketItems'] = items
     return render(request, 'otterBucket_app/search.html',context)
 
+
 def userList(request):
     if(request.session.get('username',None) == None):
         return HttpResponseRedirect(reverse('login'))
     username = request.session['username']
-    context = {'username': username}
+    context = contextBuilder
     user = User.objects.get(username = username)
     bucketIds = BucketList.objects.filter(user = user).values_list('bucket_item')
     bucketItems = BucketItem.objects.filter(id__in=bucketIds)
     context['bucketItems'] = bucketItems
     return render(request, 'otterbucket_app/user-list.html',context)
 
+
 def itemPage(request,item_id):
     item = BucketItem.objects.filter(id=item_id)
+    context = contextBuilder
     if(len(item) == 0):
          return HttpResponse("<a href='/' class='btn btn-danger'>Home</a><h1>Item not found</h1>")
-    context = {'item' : item[0]}
+    context['item'] = item[0]
     if(request.session.get('username',None) != None):
         u = User.objects.get(username = request.session.get('username'))
         context['username'] = u.username
         context['user_id'] = u.id
     return render(request, 'otterbucket_app/item.html', context)
+
 
 #to do at item to bucketlist
 def userAddItem(request):
@@ -217,6 +253,7 @@ def userAddItem(request):
     l.save()
     return HttpResponseRedirect(reverse('itemPage',args=[itemId]))
 
+
 def userRemoveItem(request):
     itemId = request.POST['itemId']
     user = User.objects.get(username=request.session['username'])
@@ -225,11 +262,12 @@ def userRemoveItem(request):
     l.delete()
     return HttpResponseRedirect(reverse('userList'))
 
+
 def randomItem(request):
-    if(request.session.get('Username',None) == None):
+    if(isLoggedIn(request)):
         return HttpResponseRedirect(reverse('login'))
 
-    context = {}
+    context = contextBuilder(request)
     username = request.session['Username']
 
     user = User.objects.get(username = username)
@@ -256,6 +294,34 @@ def randomItem(request):
 
     return render(request, 'otterbucket_app/random-item.html', context)
 
-
+    
 def addUserFailed(request):
     return render(request, 'otterbucket_app/add-user-failed.html')
+    
+def isLoggedIn(request):
+    print(request.session.get('username',None))
+    if request.session.get('username',None) == None:
+        return False
+    else:
+        return True
+
+
+def isAdmin(request):
+    if not isLoggedIn(request):
+        return False
+    else:
+        username = request.session.get('username')
+        user = User.objects.filter(username=username)[0]
+        return user.admin
+
+def contextBuilder(request):
+    context = dict()
+    if(isLoggedIn(request)):
+        user = User.objects.get(username=request.session['username'])
+        userId = user.id
+        username = user.username
+        isAdmin = user.admin
+        context['userId'] = userId
+        context['username'] = username
+        context['isAdmin'] = isAdmin
+    return context
