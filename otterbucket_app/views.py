@@ -204,7 +204,8 @@ def logout(request):
     return render(request, 'otterbucket_app/logged-out.html')
 
 def search(request):
-    return render(request, 'otterbucket_app/search.html')
+    context = contextBuilder(request)
+    return render(request, 'otterbucket_app/search.html',context)
 
 
 def searchResult(request):
