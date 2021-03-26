@@ -14,6 +14,7 @@ urlpatterns = [
     path('manualAddItem', views.manualAddItem, name='manualAddItem'),
     path('adminAddUser', views.adminAddUser, name='adminAddUser'),
     path('manualAddUser', views.manualAddUser, name='manualAddUser'),
+    path('addUserFailed', views.addUserFailed, name='addUserFailed'),
     path('adminUpdateItem/<int:itemId>', views.adminUpdateItem, name='adminUpdateItem'),
     path('manualUpdateItem', views.manualUpdateItem, name='manualUpdateItem'),
     path('adminUpdateUser/<int:userId>', views.adminUpdateUser, name='adminUpdateUser'),
@@ -34,5 +35,5 @@ urlpatterns = [
     path('user-add-item', views.userAddItem, name='userAddItem'),
     path('user-remove-item', views.userRemoveItem, name='userRemoveItem'),
     path('logged-out', views.logout, name='loggedOut'),
-    path('edit-user', views.editUser, name='editUser')
+    path('edit-account', views.editAccount, name='editAccount')
 ]

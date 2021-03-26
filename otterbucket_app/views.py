@@ -59,9 +59,12 @@ def adminAddUser(request):
 
 
 def manualAddUser(request):
-    u = User(username=request.POST['username'], password=request.POST['password'])
-    u.save()
-    return HttpResponseRedirect(reverse('adminMain'))
+    check = request.POST['username']
+    if not User.objects.filter(username=check).exists():
+        u = User(username=request.POST['username'], password=request.POST['password'], admin=request.POST['admin'])
+        u.save()
+        return HttpResponseRedirect(reverse('adminMain'))
+    return HttpResponseRedirect(reverse('addUserFailed'))
 
 
 def adminUpdateItem(request, itemId):
@@ -85,11 +88,24 @@ def adminUpdateUser(request, userId):
 
 
 def manualUpdateUser(request):
-    user = User.objects.get(id=request.POST['userId'])
-    user.username = request.POST['username']
-    user.password = request.POST['password']
-    user.save()
-    return HttpResponseRedirect(reverse('adminMain'))
+    checkName = request.POST['username']
+    checkId = request.POST['userId']
+    if not User.objects.filter(username=checkName).exists():
+        user = User.objects.get(id=request.POST['userId'])
+        user.username = request.POST['username']
+        user.password = request.POST['password']
+        user.admin = request.POST['admin']
+        user.save()
+        return HttpResponseRedirect(reverse('adminMain'))
+    elif User.objects.filter(username=checkName, id=checkId).exists():
+        user = User.objects.get(id=request.POST['userId'])
+        user.username = request.POST['username']
+        user.password = request.POST['password']
+        user.admin = request.POST['admin']
+        user.save()
+        return HttpResponseRedirect(reverse('adminMain'))
+    return render(request, 'otterbucket_app/update-user-failed.html')
+
 
 
 def manualDeleteItem(request):
@@ -124,7 +140,7 @@ def loginUser(request):
     typedPass = request.POST['password']
     checkUser = User.objects.filter(username = typedUser).exists()
 
-    if checkUser == True:
+    if checkUser:
         validUser = User.objects.get(username = typedUser)
         if validUser.password == typedPass:
             request.session['username'] = typedUser
@@ -133,11 +149,14 @@ def loginUser(request):
     else:
         return render(request, 'otterbucket_app/login-failed.html')
 
+#Edit Account page
+def editAccount(request):
+    currUser = request.session['username']
+    u = User.objects.get(username = currUser)
+    context = {"userid" : u.id, "username" : u.username, "password" : u.password}
+    return render(request, 'otterbucket_app/edit-account.html', context)
 
-def editUser(request):
-    return 0
-
-
+#log out of an account
 def logout(request):
     request.session.flush()
     return render(request, 'otterbucket_app/logged-out.html')
@@ -233,7 +252,6 @@ def randomItem(request):
 
     return render(request, 'otterbucket_app/random-item.html', context)
 
-
 def isLoggedIn(request):
     return request.session.get('username',None) != None
 
@@ -249,3 +267,6 @@ def buildcontext(request):
         context['username'] = username
         context['isAdmin'] = isAdmin
     return context
+    
+def addUserFailed(request):
+    return render(request, 'otterbucket_app/add-user-failed.html')
