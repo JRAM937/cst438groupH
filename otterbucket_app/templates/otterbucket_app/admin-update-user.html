@@ -5,14 +5,25 @@
             <label for="username">Username: </label>
             <input class="form-control" type="text" value="{{user.username}}" id="username" name="username">
         </div>
-
         <div class="form-group">
             <label for="password">Password: </label>
             <input class="form-control" type="password" value="{{user.password}}" id="password" name="password">
         </div>
+        <b>Admin:</b><br>
+        {% if user.admin %}
+            <label for="True">True: </label>
+            <input type="radio" id="True" name="admin" value="True" checked><br>
+            <label for="False">False: </label>
+            <input type="radio" id="False" name="admin" value="False">
+        {% else %}
+            <label for="True">True: </label>
+            <input type="radio" id="True" name="admin" value="True"><br>
+            <label for="False">False: </label>
+            <input type="radio" id="False" name="admin" value="False" checked>
+        {% endif %}
         <hr>
         <div class="form-group">
-            <button value="{{user.id}}" name="userId">Update</button>
+            <button class="btn btn-primary" value="{{user.id}}" name="userId">Update</button>
         </div>
 
     </form>

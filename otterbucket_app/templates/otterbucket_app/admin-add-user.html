@@ -1,10 +1,24 @@
 {% include "otterbucket_app/header.html" %}
 
     <form action="/manualAddUser" method="POST">
-        <label for="username">Username: </label> <input type="text" id="username" name="username">
-        <br><br>
-        <label for="password">Password: <input type="password" id="password" name="password">
-        <button>Submit</button>
+        <div class="form-group">
+            <label for="username">Username: </label>
+            <input class="form-control" type="text" id="username" name="username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password: </label>
+            <input class="form-control" type="password" id="password" name="password">
+        </div>
+        <div class="form-group">
+            <b>Admin:</b><br>
+            <label for="True">True: </label>
+            <input type="radio" id="True" name="admin" value="True"><br>
+            <label for="False">False: </label>
+            <input type="radio" id="False" name="admin" value="False">
+        </div>
+        <hr>
+        <button class="btn btn-primary">Submit</button>
     </form>
 
 </body>

@@ -1,10 +1,16 @@
 {% include "otterbucket_app/header.html" %}
 
     <form action="/manualAddItem" method="POST">
-        <label for="title">Title: </label> <input type="text" id="title" name="title">
-        <br><br>
-        <label for="text">Text: </label> <input type="text" id="text" name="text">
-        <button>Submit</button>
+        <div class="form-group">
+            <label for="title">Title: </label>
+            <input class="form-control" type="text" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="text">Text: </label>
+            <textarea class="form-control" type="text" id="text" name="text"></textarea>
+        </div>
+        <hr>
+        <button class="btn btn-primary">Submit</button>
     </form>
 
 </body>

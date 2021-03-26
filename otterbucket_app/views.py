@@ -59,9 +59,12 @@ def adminAddUser(request):
 
 
 def manualAddUser(request):
-    u = User(username=request.POST['username'], password=request.POST['password'])
-    u.save()
-    return HttpResponseRedirect(reverse('adminMain'))
+    check = request.POST['username']
+    if not User.objects.filter(username=check).exists():
+        u = User(username=request.POST['username'], password=request.POST['password'], admin=request.POST['admin'])
+        u.save()
+        return HttpResponseRedirect(reverse('adminMain'))
+    return HttpResponseRedirect(reverse('addUserFailed'))
 
 def adminUpdateItem(request, itemId):
     item = BucketItem.objects.get(id=itemId)
@@ -81,11 +84,24 @@ def adminUpdateUser(request, userId):
     return render(request, 'otterbucket_app/admin-update-user.html', context)
 
 def manualUpdateUser(request):
-    user = User.objects.get(id=request.POST['userId'])
-    user.username = request.POST['username']
-    user.password = request.POST['password']
-    user.save()
-    return HttpResponseRedirect(reverse('adminMain'))
+    checkName = request.POST['username']
+    checkId = request.POST['userId']
+    if not User.objects.filter(username=checkName).exists():
+        user = User.objects.get(id=request.POST['userId'])
+        user.username = request.POST['username']
+        user.password = request.POST['password']
+        user.admin = request.POST['admin']
+        user.save()
+        return HttpResponseRedirect(reverse('adminMain'))
+    elif User.objects.filter(username=checkName, id=checkId).exists():
+        user = User.objects.get(id=request.POST['userId'])
+        user.username = request.POST['username']
+        user.password = request.POST['password']
+        user.admin = request.POST['admin']
+        user.save()
+        return HttpResponseRedirect(reverse('adminMain'))
+    return render(request, 'otterbucket_app/update-user-failed.html')
+
 
 def manualDeleteItem(request):
     item = BucketItem.objects.get(id=request.POST['itemId'])
@@ -222,3 +238,7 @@ def randomItem(request):
     context['bucketItems'] = bucketItemJson
 
     return render(request, 'otterbucket_app/random-item.html', context)
+
+
+def addUserFailed(request):
+    return render(request, 'otterbucket_app/add-user-failed.html')
