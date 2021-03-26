@@ -204,7 +204,8 @@ def logout(request):
     return render(request, 'otterbucket_app/logged-out.html')
 
 def search(request):
-    return render(request, 'otterbucket_app/search.html')
+    context = contextBuilder(request)
+    return render(request, 'otterbucket_app/search.html',context)
 
 
 def searchResult(request):
@@ -213,7 +214,7 @@ def searchResult(request):
     query = Q(title__contains=search) | Q(text__contains=search)
     items = BucketItem.objects.filter(query)
     context['bucketItems'] = items
-    return render(request, 'otterBucket_app/search.html',context)
+    return render(request, 'otterbucket_app/search.html',context)
 
 
 def userList(request):
