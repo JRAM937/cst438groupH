@@ -59,6 +59,7 @@ def adminMain(request):
 def adminAddItem(request):
     if(not isAdmin(request)):
         return HttpResponseRedirect(reverse('index'))
+    context = contextBuilder(request)
     return render(request, 'otterbucket_app/admin-add-item.html',context)
 
 
@@ -73,6 +74,7 @@ def manualAddItem(request):
 def adminAddUser(request):
     if(not isAdmin(request)):
         return HttpResponseRedirect(reverse('index'))
+    context = contextBuilder(request)
     return render(request, 'otterbucket_app/admin-add-user.html',context)
 
 
@@ -104,7 +106,7 @@ def manualUpdateItem(request):
 
 
 def adminUpdateUser(request, userId):
-    context = contextBuilder
+    context = contextBuilder(request)
     user = User.objects.get(id=userId)
     context['user'] = user
     return render(request, 'otterbucket_app/admin-update-user.html', context)
@@ -168,13 +170,12 @@ def loginUser(request):
         if validUser.password == typedPass:
             request.session['username'] = typedUser
             print("Login Success!")
-            return HttpResponseRedirect(reverse('index'))
-    else:
-        return render(request, 'otterbucket_app/login-failed.html')
+            return HttpResponseRedirect(reverse('index'))    
+    return render(request, 'otterbucket_app/login-failed.html')
 
 #Edit Account page
 def editAccount(request):
-    context = contextBuilder
+    context = contextBuilder(request)
     currUser = request.session['username']
     u = User.objects.get(username = currUser)
     context["password"] = u.password
@@ -191,7 +192,7 @@ def search(request):
 
 def searchResult(request):
     search = request.POST['search']
-    context = contextBuilder
+    context = contextBuilder(request)
     query = Q(title__contains=search) | Q(text__contains=search)
     items = BucketItem.objects.filter(query)
     context['bucketItems'] = items
@@ -202,7 +203,7 @@ def userList(request):
     if(request.session.get('username',None) == None):
         return HttpResponseRedirect(reverse('login'))
     username = request.session['username']
-    context = contextBuilder
+    context = contextBuilder(request)
     user = User.objects.get(username = username)
     bucketIds = BucketList.objects.filter(user = user).values_list('bucket_item')
     bucketItems = BucketItem.objects.filter(id__in=bucketIds)
@@ -212,7 +213,7 @@ def userList(request):
 
 def itemPage(request,item_id):
     item = BucketItem.objects.filter(id=item_id)
-    context = contextBuilder
+    context = contextBuilder(request)
     if(len(item) == 0):
          return HttpResponse("<a href='/' class='btn btn-danger'>Home</a><h1>Item not found</h1>")
     context['item'] = item[0]
