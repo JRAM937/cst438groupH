@@ -114,7 +114,7 @@ def randomItem(request):
     #a list.
     #---------------------------------------------------------------------
 
-    bucketIds = BucketList.objects.filter(user = user)
+    bucketIds = BucketList.objects.filter(user = user).values_list('bucket_item')
     bucketItems = BucketItem.objects.filter(id__in=bucketIds)
 
     #---------------------------------------------------------------------
