@@ -1,44 +1,51 @@
 {% include "otterbucket_app/header.html" %}
+<br>
 <div class="row">
 
     <div class="col">
         <a href="/adminAddUser" class="btn btn-primary">Add User</a>
+        <hr>
         {% if users %}
             {% for user in users %}
                 <h5>{{user.username}}</h5>
                 <div class="row">
                     <div class="col">
-                        <a href="/adminUpdateUser/{{user.id}}">Update</a>
+                        <a class="btn btn-primary" href="/adminUpdateUser/{{user.id}}">Update</a>
                     </div>
                     <div class="col">
                         <form action="/manualDeleteUser" method="POST">
-                            <button value="{{user.id}}" id="{{user.id}}" name="userId">Delete</button>
+                            <button class="btn btn-secondary" value="{{user.id}}" id="{{user.id}}" name="userId">Delete</button>
                         </form>
                     </div>
                 </div>
+                <hr>
             {% endfor %}
+        {% else %}
+            <p><b>No users in database.</b></p>
         {% endif %}
     </div>
 
     <div class="col">
         <a href="/adminAddItem" class="btn btn-primary">Add Item</a>
+        <hr>
         {% if items %}
             {% for item in items %}
                 <h5>{{item.title}}</h5>
                 <p>{{item.text}}</p>
                 <div class="row">
                     <div class="col">
-                        <a href="/adminUpdateItem/{{item.id}}">Update</a>
+                        <a class="btn btn-primary" href="/adminUpdateItem/{{item.id}}">Update</a>
                     </div>
                     <div class="col">
                         <form action="/manualDeleteItem" method="POST">
-                            <button value="{{item.id}}" id="{{item.id}}" name="itemId">Delete</button>
+                            <button class="btn btn-secondary" value="{{item.id}}" id="{{item.id}}" name="itemId">Delete</button>
                         </form>
                     </div>
                 </div>
+                <hr>
             {% endfor %}
         {% else %}
-            <p>No items in database.</p>
+            <p><b>No items in database.</b></p>
         {% endif %}
     </div>
 </div>
