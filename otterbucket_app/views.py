@@ -9,10 +9,12 @@ from .models import BucketItem,BucketList,User
 # index is the name used in urls.py to call this function
 def index(request):
     context = contextBuilder(request)
-    return render(request, 'otterbucket_app/main-page.html',context)
+    print('index with context')
+    return render(request, 'otterbucket_app/main-page.html', context)
 
 def genAdmin():
     user = User(username='Admin', password='Admin',admin=True)
+    user.save()
 
 def genBucketList(request):
     for i in range(10):
@@ -245,7 +247,7 @@ def userRemoveItem(request):
 
 
 def randomItem(request):
-    if(request.session.get('Username',None) == None):
+    if(isLoggedIn(request)):
         return HttpResponseRedirect(reverse('login'))
 
     context = contextBuilder(request)
@@ -280,7 +282,11 @@ def addUserFailed(request):
     return render(request, 'otterbucket_app/add-user-failed.html')
     
 def isLoggedIn(request):
-    return request.session.get('username',None) != None
+    print(request.session.get('username',None))
+    if request.session.get('username',None) == None:
+        return False
+    else:
+        return True
 
 
 def isAdmin(request):
@@ -288,16 +294,16 @@ def isAdmin(request):
         return False
     else:
         username = request.session.get('username')
-        user = User.objects.filter(username=username)
+        user = User.objects.filter(username=username)[0]
         return user.admin
 
 def contextBuilder(request):
-    context = {}
+    context = dict()
     if(isLoggedIn(request)):
-        user = User.objects.filter(request.session['username'])
+        user = User.objects.get(username=request.session['username'])
         userId = user.id
         username = user.username
-        isAdmin = user.isAdmin
+        isAdmin = user.admin
         context['userId'] = userId
         context['username'] = username
         context['isAdmin'] = isAdmin
