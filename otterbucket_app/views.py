@@ -12,9 +12,26 @@ def index(request):
 
 
 def genBucketList(request):
-    for i in range(10):
-        b = BucketItem(title=i, text="text")
-        b.save()
+    b = BucketItem(title="Mothman", text="The superhero-movie passion-project, now on DVD!")
+    b.save()
+    b = BucketItem(title="Mothman 2", text="The sequel that raised the standards for action films everywhere. Own it on DVD!")
+    b.save()
+    b = BucketItem(title="Mothman 3", text="The cashgrab sequel made after a corporate buyout of the brand. This is a license to the corporate streaming service it's exclusive to.")
+    b.save()
+    b = BucketItem(title="A Rock", text="The perfect paperweight. Doesn't talk back or ask for higher pay when you use it. Unlike Greg.")
+    b.save()
+    b = BucketItem(title="Rubber Duck", text="A loyal companion for your long, lonely programming nights. He won't judge you. Unless you don't comment your code anywhere.")
+    b.save()
+    b = BucketItem(title="Shrek 2", text="A VHS copy of the cinematic masterpiece.")
+    b.save()
+    b = BucketItem(title="Greg", text="Our incredible intern. We will pay you to take him. *An amazing offer!*")
+    b.save()
+    b = BucketItem(title="VHS Player", text="Perfect for playing Shrek 2")
+    b.save()
+    b = BucketItem(title="Nokia 5185i Cellphone", text="Indestructable. *License to carry not included.*")
+    b.save()
+    b = BucketItem(title="Signed Vinyl of Michael Jackson's Thriler", text="'Are you even paying me to sign this?' - Greg")
+    b.save()
     return redirect('/list')
 
 
@@ -223,7 +240,7 @@ def randomItem(request):
     #a list.
     #---------------------------------------------------------------------
 
-    bucketIds = BucketList.objects.filter(user = user)
+    bucketIds = BucketList.objects.filter(user = user).values_list('bucket_item')
     bucketItems = BucketItem.objects.filter(id__in=bucketIds)
 
     #---------------------------------------------------------------------
