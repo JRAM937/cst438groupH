@@ -146,7 +146,8 @@ def manualUpdateUser(request):
         user.admin = request.POST['admin']
         user.save()
         return HttpResponseRedirect(reverse('adminMain'))
-    return render(request, 'otterbucket_app/update-user-failed.html')
+    context = contextBuilder(request)
+    return render(request, 'otterbucket_app/update-user-failed.html',context)
 
 
 
@@ -173,7 +174,8 @@ def registerUser(request):
         U.save()
         return HttpResponseRedirect(reverse('login'))
     else:
-        return render(request, 'otterbucket_app/register-failed.html')
+        context = contextBuilder(request)
+        return render(request, 'otterbucket_app/register-failed.html',context)
 
 
 #Log in a user
@@ -266,7 +268,7 @@ def userRemoveItem(request):
 
 
 def randomItem(request):
-    if(isLoggedIn(request)):
+    if( not isLoggedIn(request)):
         return HttpResponseRedirect(reverse('login'))
 
     context = contextBuilder(request)
@@ -298,10 +300,10 @@ def randomItem(request):
 
     
 def addUserFailed(request):
-    return render(request, 'otterbucket_app/add-user-failed.html')
+    context = contextBuilder(request)
+    return render(request, 'otterbucket_app/add-user-failed.html',context)
     
 def isLoggedIn(request):
-    print(request.session.get('username',None))
     if request.session.get('username',None) == None:
         return False
     else:
